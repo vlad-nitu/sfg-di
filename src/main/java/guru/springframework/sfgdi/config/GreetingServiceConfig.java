@@ -12,15 +12,15 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class GreetingServiceConfig {
 
+    @Profile({"EN", "default"})
+    @Bean("i18nService")
+    I18nSpanishService i18nSpanishService() {
+        return new I18nSpanishService();
+    }
     @Profile("EN")
     @Bean
-    I18nEnglishGreetingService i18nEnglishGreetingService() {
+    I18nEnglishGreetingService i18nService() {
         return new I18nEnglishGreetingService();
-    }
-    @Profile("ES")
-    @Bean
-    I18nSpanishService i18nService() {
-        return new I18nSpanishService();
     }
     @Primary
     @Bean
