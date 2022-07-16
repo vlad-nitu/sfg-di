@@ -17,63 +17,61 @@ import org.springframework.context.annotation.*;
 public class GreetingServiceConfig {
 
     @Bean
-    FakeDataSource fakeDataSource(@Value("${guru.username}") String username,
-                                  @Value("${guru.password}") String password,
-                                  @Value("${guru.jdbcurl}") String jdbcurl){
+    FakeDataSource fakeDataSource(SfgConfiguration sfgConfiguration) {
         FakeDataSource fakeDataSource = new FakeDataSource();
-        fakeDataSource.setUsername(username);
-        fakeDataSource.setPassword(password);
-        fakeDataSource.setJdbcurl(jdbcurl);
+        fakeDataSource.setUsername(sfgConfiguration.getUsername());
+        fakeDataSource.setPassword(sfgConfiguration.getPassword());
+        fakeDataSource.setJdbcurl(sfgConfiguration.getJdbcurl());
         return fakeDataSource;
     }
 
     @Bean
-    PetServiceFactory petServiceFactory(){
+    PetServiceFactory petServiceFactory() {
         return new PetServiceFactory();
     }
 
     @Profile({"dog", "default"})
     @Bean
-    PetService dogPetService(PetServiceFactory petServiceFactory){
-       return petServiceFactory.getPetService("dog");
+    PetService dogPetService(PetServiceFactory petServiceFactory) {
+        return petServiceFactory.getPetService("dog");
     }
 
     @Bean
     @Profile("cat")
-    PetService catPetService(PetServiceFactory petServiceFactory){
+    PetService catPetService(PetServiceFactory petServiceFactory) {
         return petServiceFactory.getPetService("cat");
     }
 
     @Profile({"ES", "default"})
     @Bean("i18nService")
-    I18NSpanishService i18NSpanishService(){
+    I18NSpanishService i18NSpanishService() {
         return new I18NSpanishService();
     }
 
     @Bean
-    EnglishGreetingRepository englishGreetingRepository(){
+    EnglishGreetingRepository englishGreetingRepository() {
         return new EnglishGreetingRepositoryImpl();
     }
 
     @Profile("EN")
     @Bean
-    I18nEnglishGreetingService i18nService(EnglishGreetingRepository englishGreetingRepository){
+    I18nEnglishGreetingService i18nService(EnglishGreetingRepository englishGreetingRepository) {
         return new I18nEnglishGreetingService(englishGreetingRepository);
     }
 
     @Primary
     @Bean
-    PrimaryGreetingService primaryGreetingService(){
+    PrimaryGreetingService primaryGreetingService() {
         return new PrimaryGreetingService();
     }
 
     @Bean
-    PropertyInjectedGreetingService propertyInjectedGreetingService(){
+    PropertyInjectedGreetingService propertyInjectedGreetingService() {
         return new PropertyInjectedGreetingService();
     }
 
     @Bean
-    SetterInjectedGreetingService setterInjectedGreetingService(){
+    SetterInjectedGreetingService setterInjectedGreetingService() {
         return new SetterInjectedGreetingService();
     }
 }
